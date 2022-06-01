@@ -7,24 +7,40 @@ namespace Fitness.CMD
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите имя пользователя");
-            var name = Console.ReadLine();
+            while (true)
+            {
+                Console.Clear();
 
-            Console.WriteLine("Введите пол");
-            var nameGender = Console.ReadLine();
+                Console.WriteLine("Введите имя пользователя");
+                var name = Console.ReadLine();
 
-            Console.WriteLine("Введите дату рождения");
-            var dateBirth = DateTime.Parse(Console.ReadLine());
+                var userControll = new UserController(name);
 
-            Console.WriteLine("Введите вес");
-            var weight = Int32.Parse(Console.ReadLine());
+                if (userControll.IsNewUser)
+                {
+                    Console.WriteLine("Пользователь не найден. Создание нового пользователя.");
+                    Console.WriteLine("Введите пол");
+                    var nameGender = Console.ReadLine();
 
-            Console.WriteLine("Введите рост");
-            var height = Int32.Parse(Console.ReadLine());
+                    var dateBirth = UserController.ParseDateTime();
+                    var weight = UserController.ParseInt("вес");
+                    var height = UserController.ParseInt("рост");
 
-            var userControll = new UserController(name, nameGender, dateBirth, weight, height);
+                    userControll.SetNewUserData(nameGender, dateBirth, weight, height);
 
-            userControll.Save();
+                    userControll.Save();
+
+                    Console.WriteLine("Пользователь сохранен.");
+                    Console.ReadLine();
+
+                }
+                else
+                {
+                    Console.WriteLine(userControll.CurrentUser.ToString());
+                    Console.ReadLine();
+                }
+
+            }
 
         }
     }

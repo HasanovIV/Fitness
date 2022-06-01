@@ -9,7 +9,6 @@ namespace Fitness.BL.Model
     public class User
     {
         #region Свойства
-
         public int Id { get; set; }
         /// <summary>
         /// Логин
@@ -38,6 +37,16 @@ namespace Fitness.BL.Model
 
         public User(){}
 
+        public User(string login)
+        {
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                throw new ArgumentException($"\"{nameof(login)}\" " +
+                    $"не может быть пустым или содержать только пробел.", nameof(login));
+            }
+            Login = login;
+        }
+
         /// <summary>
         /// Создать новго пользователя.
         /// </summary>
@@ -46,12 +55,7 @@ namespace Fitness.BL.Model
         /// <param name="birthDate">Дата рождения.</param>
         /// <param name="weight">Вес.</param>
         /// <param name="height">Рост.</param>
-        public User(string login,
-            Gender gender,
-            DateTime birthDate,
-            int weight,
-            int height)
-
+        public User(string login, Gender gender, DateTime birthDate, int weight, int height)
         {
             #region Проверка на заполненность
             if (string.IsNullOrWhiteSpace(login))
@@ -91,7 +95,7 @@ namespace Fitness.BL.Model
 
         public override string ToString()
         {
-            return Login;
+            return Login +" " + BirthDate.Year;
         }
     }
 }
