@@ -14,9 +14,9 @@ namespace Fitness.CMD
                 Console.WriteLine("Введите имя пользователя");
                 var name = Console.ReadLine();
 
-                var userControll = new UserController(name);
+                var userController = new UserController(name);
 
-                if (userControll.IsNewUser)
+                if (userController.IsNewUser)
                 {
                     Console.WriteLine("Пользователь не найден. Создание нового пользователя.");
                     Console.WriteLine("Введите пол");
@@ -26,9 +26,9 @@ namespace Fitness.CMD
                     var weight = UserController.ParseInt("вес");
                     var height = UserController.ParseInt("рост");
 
-                    userControll.SetNewUserData(nameGender, dateBirth, weight, height);
+                    userController.SetNewUserData(nameGender, dateBirth, weight, height);
 
-                    userControll.Save();
+                    userController.Save();
 
                     Console.WriteLine("Пользователь сохранен.");
                     Console.ReadLine();
@@ -36,7 +36,7 @@ namespace Fitness.CMD
                 }
                 else
                 {
-                    Console.WriteLine(userControll.CurrentUser.ToString());
+                    Console.WriteLine(userController.CurrentUser.ToString());
                     Console.ReadLine();
                 }
 
