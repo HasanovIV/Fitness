@@ -97,5 +97,21 @@ namespace Fitness.BL.Model
         {
             return Login +" " + BirthDate.Year;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() == typeof(User))
+            {
+                User user = (User)obj;
+
+                bool result = (this.Login == user.Login);
+
+                return result;
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
     }
 }

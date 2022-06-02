@@ -7,8 +7,10 @@ using Fitness.BL.Model;
 
 namespace Fitness.BL.Controller
 {
-    public class UserController
+    public class UserController : ControllerBase
     {
+        private const string USERS_FILE_NAME = "users.dat";
+
         /// <summary>
         /// Пользователь приложения.
         /// </summary>
@@ -65,18 +67,7 @@ namespace Fitness.BL.Controller
         /// <returns></returns>
         private List<User> GetUsersData()
         {
-            var formatter = new BinaryFormatter();
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                if (fs.Length > 0 && formatter.Deserialize(fs) is List<User> users)
-                {
-                    return users;
-                }
-                else
-                {
-                    return new List<User>();
-                }
-            }
+            return Load<List<User>>(USERS_FILE_NAME) ?? new List<User>();
         }
 
         /// <summary>
@@ -84,49 +75,8 @@ namespace Fitness.BL.Controller
         /// </summary>
         public void Save()
         {
-            var formatter = new BinaryFormatter();
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, Users);
-            }
+            Save(USERS_FILE_NAME, Users);
         }
-    
-        public static DateTime ParseDateTime()
-        {
-            DateTime result;
-            while(true)
-            {
-                Console.WriteLine("Введите дату рождения (dd.mm.yyyy)");
-                
-                if (DateTime.TryParse(Console.ReadLine(), out result))
-                {
-                    return result;
-                }
-                else
-                {
-                    Console.WriteLine("Неверный формат даты!");
-                }
-            }
-        }
-
-        public static int ParseInt(string name)
-        {
-            int result;
-            while (true)
-            {
-                Console.WriteLine($"Введите {name}");
-
-                if (Int32.TryParse(Console.ReadLine(), out result))
-                {
-                    return result;
-                }
-                else
-                {
-                    Console.WriteLine($"Неверный формат {name}!");
-                }
-            }
-        }
-
         public override bool Equals(object obj)
         {
             if (obj.GetType() == typeof(UserController))

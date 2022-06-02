@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Fitness.BL.Controller;
+using Fitness.BL.Model;
 
 namespace Fitness.CMD
 {
@@ -7,40 +9,58 @@ namespace Fitness.CMD
     {
         static void Main(string[] args)
         {
-            while (true)
+
+            Console.WriteLine("Введите имя пользователя");
+            var name = Console.ReadLine();
+
+            var userController = new UserController(name);
+
+            if (userController.IsNewUser)
             {
-                Console.Clear();
+                Console.WriteLine("Пользователь не найден. Создание нового пользователя.");
+                Console.WriteLine("Введите пол");
+                var nameGender = Console.ReadLine();
 
-                Console.WriteLine("Введите имя пользователя");
-                var name = Console.ReadLine();
+                var dateBirth = ControllerBase.ParseDateTime();
+                var weight = ControllerBase.ParseInt("вес");
+                var height = ControllerBase.ParseInt("рост");
 
-                var userController = new UserController(name);
+                userController.SetNewUserData(nameGender, dateBirth, weight, height);
 
-                if (userController.IsNewUser)
-                {
-                    Console.WriteLine("Пользователь не найден. Создание нового пользователя.");
-                    Console.WriteLine("Введите пол");
-                    var nameGender = Console.ReadLine();
+                userController.Save();
 
-                    var dateBirth = UserController.ParseDateTime();
-                    var weight = UserController.ParseInt("вес");
-                    var height = UserController.ParseInt("рост");
-
-                    userController.SetNewUserData(nameGender, dateBirth, weight, height);
-
-                    userController.Save();
-
-                    Console.WriteLine("Пользователь сохранен.");
-                    Console.ReadLine();
-
-                }
-                else
-                {
-                    Console.WriteLine(userController.CurrentUser.ToString());
-                    Console.ReadLine();
-                }
+                Console.WriteLine("Пользователь сохранен.");
+                Console.ReadLine();
 
             }
+            else
+            {
+                Console.WriteLine($"Вход выполнен пользователем {userController.CurrentUser.ToString()}");
+                Console.ReadLine();
+            }
+
+            EatingContoller eatingContoller = new EatingContoller(userController.CurrentUser);
+
+            while (true)
+            {
+                Console.WriteLine(new string('-', 50));
+                Console.WriteLine("Введите комаду (1 - спиисок приема пиши, 2-записать новый прием пищи):");
+                
+                var keyRead = Console.ReadKey().Key;
+                Console.WriteLine();
+
+                switch (keyRead)
+                {
+                    case ConsoleKey.D1:
+                        EatingContoller.DisplayListEatingUser(eatingContoller);
+                        break;
+                    case ConsoleKey.D2:
+                        EatingContoller.AddNewEatingUser(eatingContoller);
+                        break;
+                    default:
+                        break;
+                }
+            }           
 
         }
     }
