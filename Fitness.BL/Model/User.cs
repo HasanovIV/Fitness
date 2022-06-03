@@ -26,6 +26,8 @@ namespace Fitness.BL.Model
         /// Рост.
         /// </summary>
         public int Height { get; set; }
+
+        public int GenderId { get; set; }
         /// <summary>
         /// Пол.
         /// </summary>
@@ -34,8 +36,6 @@ namespace Fitness.BL.Model
         public DateTime BirthDate { get; set; }
 
         #endregion
-
-        public User(){}
 
         public User(string login)
         {

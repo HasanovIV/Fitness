@@ -44,18 +44,22 @@ namespace Fitness.CMD
             while (true)
             {
                 Console.WriteLine(new string('-', 50));
-                Console.WriteLine("Введите комаду (1 - спиисок приема пиши, 2-записать новый прием пищи):");
-                
+                Console.WriteLine("Введите комаду:");
+                Console.WriteLine("1 - спиисок приема пиши;");
+                Console.WriteLine("2 - записать новый прием пищи;");
+                Console.WriteLine("3 - список тренировок;");
+                Console.WriteLine("4 - записать новую тренировку;");
+
                 var keyRead = Console.ReadKey().Key;
-                Console.WriteLine();
+                Console.WriteLine(new string('-', 50));
 
                 switch (keyRead)
                 {
                     case ConsoleKey.D1:
-                        EatingContoller.DisplayListEatingUser(eatingContoller);
+                        Commands.DisplayListEatingUser(eatingContoller);
                         break;
                     case ConsoleKey.D2:
-                        EatingContoller.AddNewEatingUser(eatingContoller);
+                        Commands.AddNewEatingUser(eatingContoller);
                         break;
                     default:
                         break;
