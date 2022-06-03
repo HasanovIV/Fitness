@@ -9,26 +9,29 @@ namespace Fitness.BL.Model
     public class Food
     {
         #region Свойства
+
+        public int Id { get; set; }
+
         /// <summary>
         /// Наименование.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
         /// <summary>
         /// Белки.
         /// </summary>
-        public double Proteins { get; }
+        public double Proteins { get; set; }
         /// <summary>
         /// Жиры.
         /// </summary>
-        public double Fats { get; }
+        public double Fats { get; set; }
         /// <summary>
         /// Углеводы.
         /// </summary>
-        public double Carbohydrtes { get; }
+        public double Carbohydrtes { get; set; }
         /// <summary>
         /// Калорийность.
         /// </summary>
-        public double Calories { get; }
+        public double Calories { get; set; }
 
         #endregion
 

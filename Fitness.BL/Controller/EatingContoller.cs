@@ -11,7 +11,7 @@ namespace Fitness.BL.Controller
         private const string EATINGS_FILE_NAME = "eatings.dat";
         private const string EATINGLIST_FILE_NAME = "eatinglist.dat";
 
-        private readonly User user;
+        public readonly User user;
         public List<Food> foods;
         public List<Eating> eatings;
         public List<EatingList> eatingLists;
@@ -36,7 +36,8 @@ namespace Fitness.BL.Controller
                 eatingsUser = _eatingsUser;
             }
 
-            // Не кооректно отрабатывает отбор linq изза ссылочных данных
+            // TODO
+            // Не кооректно отрабатывает отбор linq изза ссылочных данных по сериализации
             //var _eatingListsUser = eatingLists.Where(list => eatingsUser.Contains(list.Eating)).ToList<EatingList>();
             //if (_eatingListsUser != null)
             //{
@@ -53,7 +54,7 @@ namespace Fitness.BL.Controller
                         break;
                     }
                 }
-            }          
+            }
         }
 
         public void Save()
@@ -78,65 +79,6 @@ namespace Fitness.BL.Controller
             return Load<List<EatingList>>(EATINGLIST_FILE_NAME) ?? new List<EatingList>();
         }
 
-        public static void AddNewEatingUser(EatingContoller eatingContoller)
-        {
-            var dateEating = ParseDateTime();
-
-            Console.WriteLine("Введите наименование пищи:");
-            var nameFood = Console.ReadLine();
-
-            Food findFood = eatingContoller.foods.SingleOrDefault(f => f.Name == nameFood);
-            if (findFood == null)
-            {
-                Console.WriteLine("Введите информаци о пище.");
-
-                var proteins = ParseDouble("количество белков");
-                var fats = ParseDouble("количество жиров");
-                var carbohydrtes = ParseDouble("количество углеводов");
-                var calories = ParseDouble("количество калорий");
-
-                findFood = new Food(nameFood, proteins, fats, carbohydrtes, calories);
-                
-                eatingContoller.foods.Add(findFood);
-
-            }
-
-            var count = ParseDouble("количесво для приема");
-
-            Eating newEat = (Eating)eatingContoller.eatings.SingleOrDefault(e => e.Moment == dateEating && e.User.Login == eatingContoller.user.Login);
-            if (newEat == null)
-            {
-                newEat = new Eating(eatingContoller.user, dateEating);
-                
-                eatingContoller.eatings.Add(newEat);
-                eatingContoller.eatingsUser.Add(newEat);
-            }
-
-            var newEatList = new EatingList(newEat, findFood, count);
-
-            eatingContoller.eatingLists.Add(newEatList);                        
-            eatingContoller.eatingListsUser.Add(newEatList);
-
-            eatingContoller.Save();
-
-            Console.WriteLine("Прием пищи сохранен.");
-
-        }
-
-        public static void DisplayListEatingUser(EatingContoller eatingContoller)
-        {
-            foreach (var item in eatingContoller.eatingsUser)
-            {
-                Console.WriteLine(new string('-', 50));
-                Console.WriteLine($"Дата приема {item.Moment}");
-                Console.WriteLine();
-
-                foreach (var itemList in eatingContoller.eatingListsUser.Where(list => list.Eating.User.Login == item.User.Login && list.Eating.Moment == item.Moment))
-                {
-                    Console.WriteLine($"Еда {itemList.Food.ToString()} в количестве {itemList.countGramm:f2}");
-                }
-            }
-        }
     }
 
 }

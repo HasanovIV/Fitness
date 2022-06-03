@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Fitness.BL.Model
 {
-    [Serializable]
-    public class Eating
+    public class Exercise
     {
         public int Id { get; set; }
+
         public DateTime Moment { get; set; }
 
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public List<EatingList> eatingLists { get; set; }
+        public virtual List<Activity> Activities { get; set; }
 
-        public Eating(User user, DateTime dateTime)
+        public Exercise(User user, DateTime dateTime)
         {
             if (user is null)
             {
@@ -24,5 +24,6 @@ namespace Fitness.BL.Model
             User = user;
             Moment = dateTime;
         }
+
     }
 }
